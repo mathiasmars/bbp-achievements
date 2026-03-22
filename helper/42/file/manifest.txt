@@ -1,0 +1,4 @@
+# manifest.txt
+Generated reference file.
+ID: 42-1
+Timestamp: 1710420100
