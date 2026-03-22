@@ -1,0 +1,4 @@
+# draft.txt
+Generated reference file.
+ID: 51-1
+Timestamp: 1710510100

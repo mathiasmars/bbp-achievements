@@ -1,0 +1,51 @@
+{
+  "app": {
+    "title": "Bernis Unvergesslicher Junggesellenabschied",
+    "subtitle": "Lasst uns herausfinden, wer welches Achievement bekommt! 🏆✨",
+    "adminPassword": "SuperFreund738",
+    "apiUrl": "https://script.google.com/macros/s/AKfycbyX94TS2bja33-X6smTESReapCV6s9JcPa3lDYNQzof-RtV4IT4z9owLQtGpa213Ku0/exec",
+    "scriptUrl": "https://script.google.com/macros/s/AKfycbyX94TS2bja33-X6smTESReapCV6s9JcPa3lDYNQzof-RtV4IT4z9owLQtGpa213Ku0/exec"
+  },
+  "ui": {
+    "startScreen": {
+      "heading": "Wer bist du?",
+      "instruction": "Wähle deinen Namen aus, um zu beginnen. Du kannst nur einmal voten und die Abstimmung ist anonym."
+    },
+    "voteScreen": {
+      "instruction": "Vergib jeweils drei Medaillen pro Frage. Du kannst nicht für dich selbst voten.",
+      "goldLabel": "Gold — definitiv",
+      "silverLabel": "Silber — gute Performance",
+      "bronzeLabel": "Bronze — starker Kandidat",
+      "blockMessage": "Bitte vergib Gold, Silber und Bronze, um weiterzumachen!",
+      "nextButton": "Weiter →",
+      "submitButton": "Votes abschicken",
+      "backButton": "← Zurück"
+    },
+    "doneScreen": {
+      "heading": "Danke fürs Abstimmen!",
+      "message": "Die Ergebnisse erfahren wir am 11. April 💒✨"
+    },
+    "adminScreen": {
+      "heading": "Results Dashboard",
+      "roundsHeading": "Round results",
+      "roundsInstruction": "Highest average score per medal. Assign the top candidate — they are removed from all future rounds.",
+      "finalHeading": "Final assignments",
+      "exportButton": "Export CSV",
+      "resetButton": "Reset all data"
+    }
+  },
+  "people": [
+    "Alex","Berni","Daniel F.","Daniel M.","Danny","Marcus","Mathias","Michi","Thomas"
+  ],
+  "medals": [
+    { "id": 0, "name": "Medal 1", "question": "Wer hat seinen Charakter am besten verkörpert?" },
+    { "id": 1, "name": "Medal 2", "question": "Wer hat am meisten Treffer kassiert?" },
+    { "id": 2, "name": "Medal 3", "question": "Wer hatte die beste Ausrede um nicht Paintball spielen zu müssen?" },
+    { "id": 3, "name": "Medal 4", "question": "Wer war generell der beste Stratege?" },
+    { "id": 4, "name": "Medal 5", "question": "Wer war der Präziseste?" },
+    { "id": 5, "name": "Medal 6", "question": "Wer hatte den stärksten Zauber?" },
+    { "id": 6, "name": "Medal 7", "question": "Wer war nicht aus der Ruhe zu bringen?" },
+    { "id": 7, "name": "Medal 8", "question": "Wer war am hinterlistigsten?" },
+    { "id": 8, "name": "Medal 9", "question": "Wer war am überzeugendsten? " }
+  ]
+}
