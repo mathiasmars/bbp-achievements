@@ -163,7 +163,7 @@ select:focus,input:focus{border-color:var(--ink);}
     <div style="font-size:56px;margin:1.5rem 0 1rem;">🏅</div>
     <h2 id="done-h"></h2>
     <p id="done-p" style="margin-top:8px;max-width:340px;margin-left:auto;margin-right:auto;"></p>
-    <button class="btn btn-sm" style="margin-top:1.75rem;" onclick=window.close();>Schließen</button>
+    <button class="btn btn-sm" style="margin-top:1.75rem;" onclick="window.close();">Schließen</button>
   </div>
 </div>
 
@@ -214,18 +214,15 @@ select:focus,input:focus{border-color:var(--ink);}
 let CFG=null, voter=null, midx=0, vts={}, shuffledMedals=[];
 let rVotes={}, rVoters=[], rAssigns={};
 
-async function api(body){
+// ─── API (GET only — avoids CORS issues with Google Apps Script) ──────────────
+async function api(action, data){
   const url=CFG.app.apiUrl;
-  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in config.json');
-  const r=await fetch(url,{method:'POST',body:JSON.stringify(body)});
+  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in app.json');
+  const encoded=encodeURIComponent(JSON.stringify(data||{}));
+  const r=await fetch(`${url}?action=${action}&data=${encoded}`);
   return r.json();
 }
-async function apiGet(action){
-  const url=CFG.app.apiUrl;
-  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in config.json');
-  const r=await fetch(`${url}?action=${action}`);
-  return r.json();
-}
+async function apiGet(action){ return api(action); }
 
 async function boot(){
   try{ const r=await fetch('helper/53/misc/app.json'); CFG=await r.json(); }
@@ -245,7 +242,7 @@ function fallbackCfg(){
     app:{title:'Team Medal Voting',subtitle:'Rate your peers for each category',adminPassword:'admin2024',apiUrl:'PASTE_YOUR_WEB_APP_URL_HERE'},
     ui:{
       startScreen:{heading:'Who are you?',instruction:'Select your name to begin.'},
-      voteScreen:{instruction:'Assign exactly one 🥇 gold, one 🥈 silver, and one 🥉 bronze to three different people. You cannot vote for yourself.',goldLabel:'Gold — strong fit',silverLabel:'Silver — moderate fit',bronzeLabel:'Bronze — weak fit',blockMessage:'You must assign gold, silver AND bronze before continuing.',nextButton:'Next →',submitButton:'Submit votes'},
+      voteScreen:{instruction:'Assign exactly one 🥇 gold, one 🥈 silver, and one 🥉 bronze to three different people. You cannot vote for yourself.',goldLabel:'Gold — definitiv',silverLabel:'Silber — gute Performance',bronzeLabel:'Bronze — starker Kandidat',blockMessage:'Du musst Gold, Silber UND Bronze vergeben bevor du weiter kannst.',nextButton:'Weiter →',submitButton:'Abstimmen'},
       doneScreen:{heading:'Votes submitted!',message:'Your scores have been recorded.'},
       adminScreen:{heading:'Results Dashboard',roundsHeading:'Round results',roundsInstruction:'Highest average score wins the medal and is removed from future rounds.',finalHeading:'Final assignments'}
     },
@@ -279,16 +276,17 @@ function actP(){const ap=Object.values(rAssigns).map(a=>a.person);return CFG.peo
 
 function initSel(){
   const sel=document.getElementById('vsel');
-  sel.innerHTML='<option value="">— choose —</option>';
+  sel.innerHTML='<option value="">— Bitte auswählen —</option>';
   CFG.people.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p+(rVoters.includes(p)?' ✓ voted':'');sel.appendChild(o);});
 }
 
 async function startVoting(){
   const v=document.getElementById('vsel').value;
-  if(!v){se('id-err','Please select your name.');return;}
-  if(rVoters.includes(v)){se('id-err','You have already voted. Each person can only vote once.');return;}
+  if(!v){se('id-err','Bitte wähle deinen Namen aus.');return;}
+  if(rVoters.includes(v)){se('id-err','Du hast bereits abgestimmt.');return;}
   he('id-err');
-  voter=v;vts={};midx=0;shuffledMedals=shuffle(CFG.medals.filter(m=>!new Set(Object.keys(rAssigns).map(Number)).has(m.id)));
+  voter=v;vts={};midx=0;
+  shuffledMedals=shuffle(CFG.medals.filter(m=>!new Set(Object.keys(rAssigns).map(Number)).has(m.id)));
   actM().forEach(m=>{vts[m.id]={};actP().filter(p=>p!==v).forEach(p=>vts[m.id][p]=0);});
   renderV();show('s-vote');
 }
@@ -297,7 +295,7 @@ function renderV(){
   const am=actM();
   if(midx>=am.length){submitV();return;}
   const med=am[midx],u=CFG.ui.voteScreen;
-  document.getElementById('vstep').textContent=`medal ${midx+1} of ${am.length}`;
+  document.getElementById('vstep').textContent=`Kategorie ${midx+1} von ${am.length}`;
   document.getElementById('vtitle').textContent=med.name;
   document.getElementById('vq').textContent=med.question;
   he('verr');
@@ -308,17 +306,17 @@ function renderV(){
   const lst=document.getElementById('vlist');lst.innerHTML='';
   ppl.forEach(person=>{
     const cur=vts[mi][person]||0;
-    const row=document.createElement('div');row.className='vrow';
     const btns=[{pts:3,cls:'mg',em:'🥇',tip:u.goldLabel},{pts:2,cls:'ms',em:'🥈',tip:u.silverLabel},{pts:1,cls:'mb',em:'🥉',tip:u.bronzeLabel}]
       .map(t=>{const tbo=tb[t.pts]&&tb[t.pts]!==person;
-        return `<button class="mbtn ${t.cls}${cur===t.pts?' on':''}" data-pts="${t.pts}" ${tbo?`disabled title="Given to ${tb[t.pts]}"`:''} onclick="setPts(${mi},'${person}',${t.pts},this)"><span class="tip">${t.tip}</span>${t.em}</button>`;
+        return `<button class="mbtn ${t.cls}${cur===t.pts?' on':''}" data-pts="${t.pts}" ${tbo?`disabled title="Vergeben an ${tb[t.pts]}"`:''} onclick="setPts(${mi},'${person}',${t.pts},this)"><span class="tip">${t.tip}</span>${t.em}</button>`;
       }).join('');
+    const row=document.createElement('div');row.className='vrow';
     row.innerHTML=`<div class="vname">${person}</div><div class="vbtns">${btns}</div>`;
     lst.appendChild(row);
   });
   const pct=Math.round((midx/am.length)*100);
   document.getElementById('vprog').style.width=pct+'%';
-  document.getElementById('vplbl').textContent=`${midx} of ${am.length} medals scored`;
+  document.getElementById('vplbl').textContent=`${midx} von ${am.length} Kategorien bewertet`;
   document.getElementById('bprev').style.visibility=midx===0?'hidden':'visible';
   document.getElementById('bnext').textContent=midx===am.length-1?u.submitButton:u.nextButton;
 }
@@ -350,27 +348,27 @@ async function submitV(){
   }
   show('s-sub');
   try{
-    const r=await api({action:'submitVotes',voter,votes:vts});
-    if(r.error==='already_voted'){show('s-vote');se('verr','You have already voted from another device.');return;}
+    const r=await api('submitVotes',{voter,votes:vts});
+    if(r.error==='already_voted'){show('s-vote');se('verr','Du hast bereits von einem anderen Gerät abgestimmt.');return;}
     rVoters.push(voter);show('s-done');
-  }catch(e){show('s-vote');se('verr','Could not save: '+e.message);}
+  }catch(e){show('s-vote');se('verr','Speichern fehlgeschlagen: '+e.message);}
 }
 
 function goHome(){initSel();show('s-id');}
 function goAdmin(){document.getElementById('apw').value='';he('a-err');show('s-alog');}
 async function chkAdmin(){
-  if(document.getElementById('apw').value!==CFG.app.adminPassword){se('a-err','Incorrect password.');return;}
+  if(document.getElementById('apw').value!==CFG.app.adminPassword){se('a-err','Falsches Passwort.');return;}
   show('s-admin');await refreshAdmin();
 }
 
 async function refreshAdmin(){
-  document.getElementById('sync-status').innerHTML=`<span class="syncing"><span class="sdot"></span> Fetching from Google Sheets…</span>`;
+  document.getElementById('sync-status').innerHTML=`<span class="syncing"><span class="sdot"></span> Lade Daten aus Google Sheets…</span>`;
   try{
     const vd=await apiGet('getVotes');rVotes=vd.votes||{};rVoters=vd.voters||[];
     const ad=await apiGet('getAssignments');rAssigns=ad.assigns||{};
-    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--ok-tx);">✓ Synced — ${new Date().toLocaleTimeString()}</span>`;
+    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--ok-tx);">✓ Aktualisiert — ${new Date().toLocaleTimeString()}</span>`;
   }catch(e){
-    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--err-tx);">⚠ Could not reach Google Sheets: ${e.message}</span>`;
+    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--err-tx);">⚠ Google Sheets nicht erreichbar: ${e.message}</span>`;
   }
   renderAdmin();
 }
@@ -392,8 +390,8 @@ function renderAdmin(){
   const voted=rVoters;
   document.getElementById('a-status').innerHTML=`
     <div class="hrow" style="margin-bottom:10px;">
-      <h3 style="margin:0;">Voting progress</h3><div class="sp"></div>
-      <span class="badge ${voted.length===CFG.people.length?'b-ok':'b-warn'}">${voted.length} / ${CFG.people.length} voted</span>
+      <h3 style="margin:0;">Abstimmungsfortschritt</h3><div class="sp"></div>
+      <span class="badge ${voted.length===CFG.people.length?'b-ok':'b-warn'}">${voted.length} / ${CFG.people.length} abgestimmt</span>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;">
       ${CFG.people.map(p=>`<span class="badge ${voted.includes(p)?'b-ok':'b-dim'}">${p}</span>`).join('')}
@@ -410,28 +408,28 @@ function renderAdmin(){
       <div class="hrow" style="margin-bottom:10px;">
         <h3 style="margin:0;">${med.name}</h3>
         <span class="badge b-info" style="font-size:11px;">${med.question}</span>
-        ${tied?`<span class="badge b-warn">tie</span>`:''}
+        ${tied?`<span class="badge b-warn">Gleichstand</span>`:''}
       </div>
       <table class="rt">
-        <thead><tr><th>Person</th><th>Total pts</th><th>Avg / voter</th><th></th></tr></thead>
+        <thead><tr><th>Person</th><th>Punkte gesamt</th><th>Ø pro Voter</th><th></th></tr></thead>
         <tbody>${sc.map(({person,tot,vc,avg},i)=>`
           <tr class="${i===0&&avg>0?'leader':''}">
             <td>${person}</td>
-            <td>${tot} pts <span style="font-size:11px;color:var(--ink3);">(${vc} voters)</span></td>
+            <td>${tot} Pkt <span style="font-size:11px;color:var(--ink3);">(${vc} Votes)</span></td>
             <td><div class="sbarw"><span>${micon(avg)}</span><div class="sbar"><div class="sbarf" style="width:${Math.round((avg/3)*100)}%"></div></div><span>${avg.toFixed(2)}</span></div></td>
-            <td>${i===0&&avg>0&&!tied?`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Assign →</button>`:''}</td>
+            <td>${i===0&&avg>0&&!tied?`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Zuweisen →</button>`:''}</td>
           </tr>`).join('')}
         </tbody>
       </table>
-      ${tied?`<div class="tie-box">Tie between <strong>${sc.filter(s=>s.avg===sc[0].avg).map(s=>s.person).join(' and ')}</strong>. Tiebreaker: ask for a specific recent example of <em>"${med.question}"</em>.<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${sc.filter(s=>s.avg===sc[0].avg).map(({person,avg})=>`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Assign to ${person}</button>`).join('')}</div></div>`:``}`;
+      ${tied?`<div class="tie-box">Gleichstand zwischen <strong>${sc.filter(s=>s.avg===sc[0].avg).map(s=>s.person).join(' und ')}</strong>. Tiebreaker: konkretes Beispiel der letzten 3 Monate für <em>"${med.question}"</em>.<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${sc.filter(s=>s.avg===sc[0].avg).map(({person,avg})=>`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Zuweisen an ${person}</button>`).join('')}</div></div>`:``}`;
     re.appendChild(card);
   });
-  if(!re.innerHTML)re.innerHTML='<p>All medals have been assigned.</p>';
+  if(!re.innerHTML)re.innerHTML='<p>Alle Medaillen wurden vergeben.</p>';
 
   const fe=Object.entries(rAssigns);
   document.getElementById('a-final').innerHTML=fe.length===0
-    ?'<p style="color:var(--ink3);">No medals assigned yet.</p>'
-    :`<table class="rt"><thead><tr><th>Person</th><th>Medal</th><th>Avg score</th><th>Question</th></tr></thead><tbody>
+    ?'<p style="color:var(--ink3);">Noch keine Medaillen vergeben.</p>'
+    :`<table class="rt"><thead><tr><th>Person</th><th>Medaille</th><th>Ø Score</th><th>Frage</th></tr></thead><tbody>
       ${fe.map(([mi,a])=>{const med=CFG.medals.find(m=>m.id===parseInt(mi));return`<tr>
         <td><div class="hrow" style="gap:8px;"><div class="av">${ini(a.person)}</div>${a.person}</div></td>
         <td><span class="badge b-ok">${a.medalName||med?.name||''}</span></td>
@@ -441,12 +439,12 @@ function renderAdmin(){
 }
 
 async function doAssign(mi,person,avg,medalName){
-  const btn=event.target;btn.disabled=true;btn.textContent='Saving…';
+  const btn=event.target;btn.disabled=true;btn.textContent='Speichern…';
   try{
-    await api({action:'assignMedal',medalId:mi,medalName,person,avg});
+    await api('assignMedal',{medalId:mi,medalName,person,avg});
     rAssigns[mi]={person,avg,medalName,assignedAt:new Date().toISOString()};
-    toast(`${person} assigned to ${medalName}`);renderAdmin();
-  }catch(e){btn.disabled=false;btn.textContent='Assign →';toast('Error: '+e.message);}
+    toast(`${person} → ${medalName}`);renderAdmin();
+  }catch(e){btn.disabled=false;btn.textContent='Zuweisen →';toast('Fehler: '+e.message);}
 }
 
 function exportCSV(){
@@ -455,7 +453,7 @@ function exportCSV(){
   lines.push('','RAW VOTES',['Voter',...CFG.medals.map(m=>m.name+' — '+m.question)].join(','));
   Object.entries(rVotes).forEach(([v,mv])=>{
     const row=[v];
-    CFG.medals.forEach(med=>{const m=mv[med.id]||{};const parts=Object.entries(m).filter(([,p])=>p>0).sort((a,b)=>b[1]-a[1]).map(([p,pts])=>`${p}:${pts===3?'Gold':pts===2?'Silver':'Bronze'}`);row.push('"'+parts.join('; ')+'"');});
+    CFG.medals.forEach(med=>{const m=mv[med.id]||{};const parts=Object.entries(m).filter(([,p])=>p>0).sort((a,b)=>b[1]-a[1]).map(([p,pts])=>`${p}:${pts===3?'Gold':pts===2?'Silber':'Bronze'}`);row.push('"'+parts.join('; ')+'"');});
     lines.push(row.join(','));
   });
   lines.push('','SCORES PER MEDAL');
@@ -467,13 +465,13 @@ function exportCSV(){
   const blob=new Blob([lines.join('\n')],{type:'text/csv'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='medal-voting-results.csv';a.click();
-  URL.revokeObjectURL(url);toast('CSV exported!');
+  URL.revokeObjectURL(url);toast('CSV exportiert!');
 }
 
 async function resetAll(){
-  if(!confirm('Reset ALL votes and assignments in Google Sheets? This cannot be undone.'))return;
-  try{await api({action:'resetAll'});rVotes={};rVoters=[];rAssigns={};toast('All data reset.');renderAdmin();initSel();}
-  catch(e){toast('Error: '+e.message);}
+  if(!confirm('Alle Stimmen und Zuweisungen in Google Sheets zurücksetzen? Dies kann nicht rückgängig gemacht werden.'))return;
+  try{await api('resetAll',{});rVotes={};rVoters=[];rAssigns={};toast('Alle Daten zurückgesetzt.');renderAdmin();initSel();}
+  catch(e){toast('Fehler: '+e.message);}
 }
 
 boot();
