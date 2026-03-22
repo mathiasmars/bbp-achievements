@@ -38,14 +38,14 @@
     "Alex","Berni","Daniel F.","Daniel M.","Danny","Marcus","Mathias","Michi","Thomas"
   ],
   "medals": [
-    { "id": 0, "name": "Medal 1", "question": "Wer hat seinen Charakter am besten verkörpert?" },
-    { "id": 1, "name": "Medal 2", "question": "Wer hat am meisten Treffer kassiert?" },
-    { "id": 2, "name": "Medal 3", "question": "Wer hatte die beste Ausrede um nicht Paintball spielen zu müssen?" },
-    { "id": 3, "name": "Medal 4", "question": "Wer war generell der beste Stratege?" },
-    { "id": 4, "name": "Medal 5", "question": "Wer war der Präziseste?" },
-    { "id": 5, "name": "Medal 6", "question": "Wer hatte den stärksten Zauber?" },
-    { "id": 6, "name": "Medal 7", "question": "Wer war nicht aus der Ruhe zu bringen?" },
-    { "id": 7, "name": "Medal 8", "question": "Wer war am hinterlistigsten?" },
-    { "id": 8, "name": "Medal 9", "question": "Wer war am überzeugendsten? " }
+    { "id": 0, "name": "♊", "question": "Wer hat seinen Charakter am besten verkörpert?" },
+    { "id": 1, "name": "⚰️", "question": "Wer hat am meisten Treffer kassiert?" },
+    { "id": 2, "name": "😛", "question": "Wer hatte die beste Ausrede um nicht Paintball spielen zu müssen?" },
+    { "id": 3, "name": "👨🏻‍🏫", "question": "Wer war generell der beste Stratege?" },
+    { "id": 4, "name": "🎯", "question": "Wer war der Präziseste?" },
+    { "id": 5, "name": "🔮", "question": "Wer hatte den stärksten Zauber?" },
+    { "id": 6, "name": "🧘🏻", "question": "Wer war nicht aus der Ruhe zu bringen?" },
+    { "id": 7, "name": "🥷", "question": "Wer war am hinterlistigsten?" },
+    { "id": 8, "name": "⚖️", "question": "Wer war am überzeugendsten? " }
   ]
 }
