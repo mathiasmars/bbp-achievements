@@ -1,0 +1,2 @@
+Miscellaneous data block 32.
+Ref: 9702
