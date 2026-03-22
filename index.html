@@ -8,126 +8,83 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --serif:'DM Serif Display',Georgia,serif;
-  --sans:'DM Sans',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
   --ink:#18181a;--ink2:#56565a;--ink3:#9898a0;
   --page:#f7f6f2;--surface:#ffffff;--surface2:#f0efe9;
   --bd:rgba(0,0,0,0.1);--bd2:rgba(0,0,0,0.18);
-  --gold:#b8860b;--gold-bg:#fff9e6;--gold-bd:#e6c56a;
-  --silver:#777;--silver-bg:#f4f4f4;--silver-bd:#b0b0b0;
-  --bronze:#8b4513;--bronze-bg:#fff2e8;--bronze-bd:#c47a3a;
+  --gold-bg:#fff9e6;--gold-bd:#e6c56a;
+  --silver-bg:#f4f4f4;--silver-bd:#b0b0b0;
+  --bronze-bg:#fff2e8;--bronze-bd:#c47a3a;
   --ok-bg:#e8f5e0;--ok-tx:#2d6a0a;--ok-bd:#5a9e2a;
   --info-bg:#e8f0fb;--info-tx:#1a4fa0;--info-bd:#3a7ae0;
   --warn-bg:#fef3e0;--warn-tx:#7a4800;--warn-bd:#d08000;
   --err-bg:#fce8e8;--err-tx:#8a1a1a;--err-bd:#d04040;
-  --rmd:8px;--rlg:14px;--rxl:20px;
-  --shadow:0 2px 12px rgba(0,0,0,0.07);
+  --rmd:8px;--rlg:14px;--shadow:0 2px 12px rgba(0,0,0,0.07);
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --ink:#f0efea;--ink2:#a8a8b0;--ink3:#606068;
-    --page:#111113;--surface:#1c1c1f;--surface2:#242428;
-    --bd:rgba(255,255,255,0.08);--bd2:rgba(255,255,255,0.15);
-    --gold-bg:#2a2000;--gold-bd:#c8a020;
-    --silver-bg:#202020;--silver-bd:#888;
-    --bronze-bg:#200e00;--bronze-bd:#b06030;
-    --ok-bg:#0f2200;--ok-tx:#90d060;--ok-bd:#4a8a1a;
-    --info-bg:#001030;--info-tx:#80b8f8;--info-bd:#2858c0;
-    --warn-bg:#200e00;--warn-tx:#f0b040;--warn-bd:#a06000;
-    --err-bg:#200000;--err-tx:#f09090;--err-bd:#a02020;
-    --shadow:0 2px 16px rgba(0,0,0,0.3);
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --ink:#f0efea;--ink2:#a8a8b0;--ink3:#606068;
+  --page:#111113;--surface:#1c1c1f;--surface2:#242428;
+  --bd:rgba(255,255,255,0.08);--bd2:rgba(255,255,255,0.15);
+  --gold-bg:#2a2000;--gold-bd:#c8a020;--silver-bg:#202020;--silver-bd:#888;
+  --bronze-bg:#200e00;--bronze-bd:#b06030;
+  --ok-bg:#0f2200;--ok-tx:#90d060;--ok-bd:#4a8a1a;
+  --info-bg:#001030;--info-tx:#80b8f8;--info-bd:#2858c0;
+  --warn-bg:#200e00;--warn-tx:#f0b040;--warn-bd:#a06000;
+  --err-bg:#200000;--err-tx:#f09090;--err-bd:#a02020;
+  --shadow:0 2px 16px rgba(0,0,0,0.3);
+}}
 html{background:var(--page);min-height:100%;}
 body{font-family:var(--sans);color:var(--ink);background:var(--page);min-height:100vh;}
-
-/* Layout */
 .screen{display:none;max-width:640px;margin:0 auto;padding:2rem 1.25rem 4rem;}
 .screen.active{display:block;}
-
-/* Typography */
 .app-title{font-family:var(--serif);font-size:28px;font-weight:400;letter-spacing:-0.5px;margin-bottom:4px;}
 .app-sub{font-size:14px;color:var(--ink2);margin-bottom:2rem;}
 h2{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:6px;}
 h3{font-size:15px;font-weight:500;margin-bottom:8px;}
 p{font-size:14px;color:var(--ink2);line-height:1.65;}
 .pill{display:inline-block;padding:3px 10px;background:var(--surface2);border-radius:99px;font-size:11px;font-weight:500;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;}
-
-/* Cards */
 .card{background:var(--surface);border:0.5px solid var(--bd);border-radius:var(--rlg);padding:1.125rem 1.25rem;margin-bottom:12px;box-shadow:var(--shadow);}
 .card-info{border-color:var(--info-bd);background:var(--info-bg);}
-
-/* Buttons */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border:0.5px solid var(--bd2);border-radius:var(--rmd);background:transparent;color:var(--ink);font-size:14px;font-weight:500;font-family:var(--sans);cursor:pointer;transition:all .15s;}
 .btn:hover{background:var(--surface2);}
 .btn:active{transform:scale(.98);}
-.btn-primary{background:var(--ink);color:var(--page);border-color:var(--ink);}
-.btn-primary:hover{opacity:.88;background:var(--ink);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-p{background:var(--ink);color:var(--page);border-color:var(--ink);}
+.btn-p:hover{opacity:.88;background:var(--ink);}
 .btn-sm{padding:6px 14px;font-size:13px;}
-.btn-danger{color:var(--err-tx);border-color:var(--err-bd);}
-.btn-danger:hover{background:var(--err-bg);}
-.btn-export{color:var(--ok-tx);border-color:var(--ok-bd);}
-.btn-export:hover{background:var(--ok-bg);}
-
-/* Form */
-select,input[type=password]{width:100%;padding:10px 13px;border:0.5px solid var(--bd2);border-radius:var(--rmd);background:var(--surface);color:var(--ink);font-size:14px;font-family:var(--sans);outline:none;transition:border-color .15s;}
+.btn-d{color:var(--err-tx);border-color:var(--err-bd);}
+.btn-d:hover{background:var(--err-bg);}
+.btn-ex{color:var(--ok-tx);border-color:var(--ok-bd);}
+.btn-ex:hover{background:var(--ok-bg);}
+select,input[type=password]{width:100%;padding:10px 13px;border:0.5px solid var(--bd2);border-radius:var(--rmd);background:var(--surface);color:var(--ink);font-size:14px;font-family:var(--sans);outline:none;}
 select:focus,input:focus{border-color:var(--ink);}
 .lbl{font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:5px;}
-.err-msg{color:var(--err-tx);font-size:13px;margin-top:6px;padding:8px 10px;background:var(--err-bg);border-radius:var(--rmd);border:0.5px solid var(--err-bd);display:none;}
-.err-msg.show{display:block;}
-
-/* Row layout */
+.emsg{color:var(--err-tx);font-size:13px;margin-top:6px;padding:8px 10px;background:var(--err-bg);border-radius:var(--rmd);border:0.5px solid var(--err-bd);display:none;}
+.emsg.on{display:block;}
 .hrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .sp{flex:1;}
-.divider{border:none;border-top:0.5px solid var(--bd);margin:1.5rem 0;}
-
-/* Badges */
+.div{border:none;border-top:0.5px solid var(--bd);margin:1.5rem 0;}
 .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;}
 .b-ok{background:var(--ok-bg);color:var(--ok-tx);}
 .b-info{background:var(--info-bg);color:var(--info-tx);}
 .b-warn{background:var(--warn-bg);color:var(--warn-tx);}
 .b-dim{background:var(--surface2);color:var(--ink3);}
-
-/* Progress bar */
 .pbar{height:4px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:8px 0 4px;}
-.pfill{height:100%;background:var(--ink);border-radius:99px;transition:width .35s ease;}
+.pfill{height:100%;background:var(--ink);border-radius:99px;transition:width .35s;}
 .ptext{font-size:12px;color:var(--ink3);}
-
-/* Voting person row */
 .vrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--bd);}
 .vrow:last-child{border-bottom:none;}
 .vname{flex:1;font-size:14px;font-weight:500;}
 .vbtns{display:flex;gap:7px;}
-
-/* Medal buttons */
-.mbtn{
-  position:relative;
-  width:50px;height:40px;
-  border-radius:var(--rmd);
-  border:1px solid var(--bd2);
-  background:var(--surface2);
-  cursor:pointer;font-size:20px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-  filter:grayscale(1) opacity(.3);
-}
+.mbtn{position:relative;width:50px;height:40px;border-radius:var(--rmd);border:1px solid var(--bd2);background:var(--surface2);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .15s;filter:grayscale(1) opacity(.3);}
 .mbtn:hover:not(:disabled){filter:grayscale(.2) opacity(.75);background:var(--surface);}
 .mbtn.on{filter:none;opacity:1;}
 .mbtn.on.mg{border-color:var(--gold-bd);background:var(--gold-bg);}
 .mbtn.on.ms{border-color:var(--silver-bd);background:var(--silver-bg);}
 .mbtn.on.mb{border-color:var(--bronze-bd);background:var(--bronze-bg);}
 .mbtn:disabled{cursor:not-allowed;filter:grayscale(1) opacity(.15);}
-.mbtn .tip{
-  display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-  background:var(--ink);color:var(--page);font-size:11px;white-space:nowrap;
-  padding:3px 8px;border-radius:5px;font-family:var(--sans);pointer-events:none;
-}
+.mbtn .tip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--page);font-size:11px;white-space:nowrap;padding:3px 8px;border-radius:5px;pointer-events:none;z-index:10;}
 .mbtn:hover .tip{display:block;}
-
-/* Taken indicator */
-.taken-by{font-size:11px;color:var(--ink3);font-style:italic;min-width:60px;}
-
-/* Admin results table */
 .rt{width:100%;border-collapse:collapse;font-size:13px;}
 .rt th{text-align:left;padding:8px 10px;font-weight:500;color:var(--ink2);border-bottom:0.5px solid var(--bd);}
 .rt td{padding:9px 10px;border-bottom:0.5px solid var(--bd);vertical-align:middle;}
@@ -136,41 +93,32 @@ select:focus,input:focus{border-color:var(--ink);}
 .sbarw{display:flex;align-items:center;gap:7px;}
 .sbar{height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;width:70px;}
 .sbarf{height:100%;background:var(--ink);border-radius:99px;}
-
-/* Avatar */
 .av{width:34px;height:34px;border-radius:50%;background:var(--info-bg);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--info-tx);flex-shrink:0;border:0.5px solid var(--info-bd);}
-
-/* Tie warning */
 .tie-box{margin-top:10px;padding:11px 13px;background:var(--warn-bg);border-radius:var(--rmd);border:0.5px solid var(--warn-bd);font-size:13px;color:var(--warn-tx);}
-
-/* Toast */
 #toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--page);padding:11px 20px;border-radius:var(--rmd);font-size:13px;font-family:var(--sans);opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.2);}
-
-/* Legend */
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-bottom:10px;}
-
-/* Done screen */
-.done-icon{font-size:56px;text-align:center;margin:1.5rem 0 1rem;}
-
-/* Loading */
-#loading{position:fixed;inset:0;background:var(--page);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;color:var(--ink3);z-index:9999;}
+#loading{position:fixed;inset:0;background:var(--page);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:9999;}
+.spinner{width:28px;height:28px;border:2.5px solid var(--bd2);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.syncing{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3);}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--ink3);animation:pulse 1s ease infinite;}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
 </style>
 </head>
 <body>
-
-<div id="loading">Loading…</div>
+<div id="loading"><div class="spinner"></div><p style="font-size:14px;color:var(--ink3);">Loading…</p></div>
 <div id="toast"></div>
 
 <!-- IDENTITY -->
 <div class="screen" id="s-id">
-  <div id="id-header"></div>
+  <div id="id-hdr"></div>
   <div class="card">
-    <div class="lbl" id="lbl-name">Select your name</div>
+    <div class="lbl">Select your name</div>
     <select id="vsel"><option value="">— choose —</option></select>
-    <div class="err-msg" id="id-err"></div>
+    <div class="emsg" id="id-err"></div>
   </div>
   <div class="hrow" style="margin-top:1rem;">
-    <button class="btn btn-primary" id="btn-continue" onclick="startVoting()">Continue</button>
+    <button class="btn btn-p" onclick="startVoting()">Continue</button>
     <button class="btn btn-sm" onclick="goAdmin()">Admin</button>
   </div>
 </div>
@@ -178,21 +126,21 @@ select:focus,input:focus{border-color:var(--ink);}
 <!-- VOTING -->
 <div class="screen" id="s-vote">
   <div style="margin-bottom:1.25rem;padding-top:.25rem;">
-    <div class="pill" id="vstep">medal 1 of 9</div>
+    <div class="pill" id="vstep"></div>
     <h2 id="vtitle"></h2>
     <div class="card card-info" style="margin-top:10px;margin-bottom:12px;">
       <div class="lbl">question</div>
       <div id="vq" style="font-size:15px;font-weight:500;color:var(--info-tx);"></div>
     </div>
-    <div class="legend" id="vote-legend"></div>
-    <p id="vote-instruction"></p>
+    <div class="legend" id="vlegend"></div>
+    <p id="vinstr"></p>
   </div>
   <div class="card" style="padding:.5rem 1.25rem;"><div id="vlist"></div></div>
-  <div class="err-msg" id="vote-err" style="margin-top:8px;"></div>
+  <div class="emsg" id="verr" style="margin-top:8px;"></div>
   <div class="hrow" style="margin-top:1rem;gap:8px;">
     <button class="btn" id="bprev" onclick="prevM()">← Back</button>
     <div class="sp"></div>
-    <button class="btn btn-primary" id="bnext" onclick="nextM()">Next →</button>
+    <button class="btn btn-p" id="bnext" onclick="nextM()">Next →</button>
   </div>
   <div style="margin-top:1.25rem;">
     <div class="pbar"><div class="pfill" id="vprog"></div></div>
@@ -200,12 +148,21 @@ select:focus,input:focus{border-color:var(--ink);}
   </div>
 </div>
 
+<!-- SUBMITTING -->
+<div class="screen" id="s-sub">
+  <div style="text-align:center;padding-top:3rem;">
+    <div style="font-size:40px;margin-bottom:1rem;">⏳</div>
+    <h2>Submitting your votes…</h2>
+    <p style="margin-top:8px;">Saving to Google Sheets, please wait.</p>
+  </div>
+</div>
+
 <!-- DONE -->
 <div class="screen" id="s-done">
   <div style="text-align:center;padding-top:1.5rem;">
-    <div class="done-icon">🏅</div>
-    <h2 id="done-heading"></h2>
-    <p id="done-message" style="margin-top:8px;max-width:340px;margin-left:auto;margin-right:auto;"></p>
+    <div style="font-size:56px;margin:1.5rem 0 1rem;">🏅</div>
+    <h2 id="done-h"></h2>
+    <p id="done-p" style="margin-top:8px;max-width:340px;margin-left:auto;margin-right:auto;"></p>
     <button class="btn btn-sm" style="margin-top:1.75rem;" onclick="goHome()">Back to start</button>
   </div>
 </div>
@@ -220,10 +177,10 @@ select:focus,input:focus{border-color:var(--ink);}
   <div class="card">
     <div class="lbl">Password</div>
     <input type="password" id="apw" placeholder="Enter password" onkeydown="if(event.key==='Enter')chkAdmin()"/>
-    <div class="err-msg" id="a-err"></div>
+    <div class="emsg" id="a-err"></div>
   </div>
   <div class="hrow" style="margin-top:1rem;">
-    <button class="btn btn-primary" onclick="chkAdmin()">Enter</button>
+    <button class="btn btn-p" onclick="chkAdmin()">Enter</button>
     <button class="btn btn-sm" onclick="show('s-id')">Cancel</button>
   </div>
 </div>
@@ -232,391 +189,291 @@ select:focus,input:focus{border-color:var(--ink);}
 <div class="screen" id="s-admin">
   <div style="margin-bottom:1.25rem;padding-top:.25rem;">
     <div class="hrow">
-      <div><div class="pill">admin</div><h2 id="admin-heading"></h2></div>
+      <div><div class="pill">admin</div><h2 id="adm-h"></h2></div>
       <div class="sp"></div>
-      <button class="btn btn-sm btn-export" id="btn-export" onclick="exportCSV()">Export CSV</button>
-      <button class="btn btn-sm btn-danger" id="btn-reset" onclick="resetAll()">Reset all</button>
+      <button class="btn btn-sm btn-ex" onclick="exportCSV()">Export CSV</button>
+      <button class="btn btn-sm btn-d" onclick="resetAll()">Reset all</button>
     </div>
+    <div style="margin-top:8px;" id="sync-status"></div>
   </div>
-
-  <!-- Vote status -->
   <div class="card" id="a-status"></div>
-
-  <hr class="divider"/>
-
-  <!-- Rounds -->
-  <h3 id="admin-rounds-heading" style="margin-bottom:6px;"></h3>
-  <p id="admin-rounds-instruction" style="margin-bottom:1rem;"></p>
+  <hr class="div"/>
+  <h3 id="adm-rh" style="margin-bottom:6px;"></h3>
+  <p id="adm-ri" style="margin-bottom:1rem;"></p>
   <div id="a-rounds"></div>
-
-  <hr class="divider"/>
-
-  <!-- Final -->
-  <h3 id="admin-final-heading" style="margin-bottom:1rem;"></h3>
+  <hr class="div"/>
+  <h3 id="adm-fh" style="margin-bottom:1rem;"></h3>
   <div id="a-final"></div>
-
-  <button class="btn btn-sm" style="margin-top:1.75rem;" onclick="show('s-id')">Exit admin</button>
+  <div style="margin-top:1.75rem;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="btn btn-sm" onclick="refreshAdmin()">↻ Refresh</button>
+    <button class="btn btn-sm" onclick="show('s-id')">Exit admin</button>
+  </div>
 </div>
 
 <script>
-// ─── State ────────────────────────────────────────────────────────────────────
-let CFG = null;
-let voter = null, midx = 0, vts = {};
-// vts[medalId][person] = pts (3=gold,2=silver,1=bronze,0=none)
+let CFG=null, voter=null, midx=0, vts={}, shuffledMedals=[];
+let rVotes={}, rVoters=[], rAssigns={};
 
-const SK = 'mvp_v4', AK = 'mva_v4';
-const gd = () => { try { return JSON.parse(localStorage.getItem(SK) || '{}'); } catch(e) { return {}; } };
-const sd = d => localStorage.setItem(SK, JSON.stringify(d));
-const ga = () => { try { return JSON.parse(localStorage.getItem(AK) || '{}'); } catch(e) { return {}; } };
-const sa = a => localStorage.setItem(AK, JSON.stringify(a));
+async function api(body){
+  const url=CFG.app.apiUrl;
+  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in config.json');
+  const r=await fetch(url,{method:'POST',body:JSON.stringify(body)});
+  return r.json();
+}
+async function apiGet(action){
+  const url=CFG.app.apiUrl;
+  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in config.json');
+  const r=await fetch(`${url}?action=${action}`);
+  return r.json();
+}
 
-// ─── Boot ─────────────────────────────────────────────────────────────────────
-async function boot() {
-  try {
-    const r = await fetch('config.json');
-    CFG = await r.json();
-  } catch(e) {
-    // Fallback config if no server
-    CFG = {
-      app: { title: 'Team Medal Voting', subtitle: 'Rate your peers for each category', adminPassword: 'admin2024' },
-      ui: {
-        startScreen: { heading: 'Who are you?', instruction: 'Select your name to begin. Each person votes once.' },
-        voteScreen: {
-          instruction: 'Assign exactly one 🥇 gold, one 🥈 silver, and one 🥉 bronze to three different people. You cannot vote for yourself.',
-          goldLabel: 'Gold — strong fit', silverLabel: 'Silver — moderate fit', bronzeLabel: 'Bronze — weak fit',
-          blockMessage: 'You must assign exactly one gold, one silver, and one bronze before continuing.',
-          nextButton: 'Next →', submitButton: 'Submit votes', backButton: '← Back'
-        },
-        doneScreen: { heading: 'Votes submitted!', message: 'Your scores have been recorded. The admin will process results once everyone has voted.' },
-        adminScreen: { heading: 'Results Dashboard', roundsHeading: 'Round results', roundsInstruction: 'Highest average score per medal. Assign the top candidate — they are removed from all future rounds.', finalHeading: 'Final assignments', exportButton: 'Export CSV', resetButton: 'Reset all data' }
-      },
-      people: ['Alex','Berni','Daniel F.','Daniel M.','Danny','Marcus','Mathias','Michi','Thomas'],
-      medals: Array.from({length:9},(_,i)=>({id:i,name:`Medal ${i+1}`,question:`Question ${i+1}`}))
-    };
-  }
+async function boot(){
+  try{ const r=await fetch('helper/53/misc/app.json'); CFG=await r.json(); }
+  catch(e){ CFG=fallbackCfg(); }
   applyConfig();
+  try{
+    const vd=await apiGet('getVotes'); rVoters=vd.voters||[]; rVotes=vd.votes||{};
+    const ad=await apiGet('getAssignments'); rAssigns=ad.assigns||{};
+  }catch(e){ console.warn('API unreachable:',e.message); }
   initSel();
-  document.getElementById('loading').style.display = 'none';
+  document.getElementById('loading').style.display='none';
   show('s-id');
 }
 
-function applyConfig() {
-  const u = CFG.ui;
-  document.title = CFG.app.title;
-  // Identity screen
-  document.getElementById('id-header').innerHTML = `
-    <div class="pill">voting</div>
-    <div class="app-title">${CFG.app.title}</div>
-    <div class="app-sub">${CFG.app.subtitle}</div>`;
-  // Vote screen legend + instruction
-  document.getElementById('vote-legend').innerHTML = `
-    <span>🥇 ${u.voteScreen.goldLabel}</span>
-    <span>🥈 ${u.voteScreen.silverLabel}</span>
-    <span>🥉 ${u.voteScreen.bronzeLabel}</span>`;
-  document.getElementById('vote-instruction').textContent = u.voteScreen.instruction;
-  // Done screen
-  document.getElementById('done-heading').textContent = u.doneScreen.heading;
-  document.getElementById('done-message').textContent = u.doneScreen.message;
-  // Admin
-  document.getElementById('admin-heading').textContent = u.adminScreen.heading;
-  document.getElementById('admin-rounds-heading').textContent = u.adminScreen.roundsHeading;
-  document.getElementById('admin-rounds-instruction').textContent = u.adminScreen.roundsInstruction;
-  document.getElementById('admin-final-heading').textContent = u.adminScreen.finalHeading;
-  document.getElementById('btn-export').textContent = u.adminScreen.exportButton;
-  document.getElementById('btn-reset').textContent = u.adminScreen.resetButton;
+function fallbackCfg(){
+  return{
+    app:{title:'Team Medal Voting',subtitle:'Rate your peers for each category',adminPassword:'admin2024',apiUrl:'PASTE_YOUR_WEB_APP_URL_HERE'},
+    ui:{
+      startScreen:{heading:'Who are you?',instruction:'Select your name to begin.'},
+      voteScreen:{instruction:'Assign exactly one 🥇 gold, one 🥈 silver, and one 🥉 bronze to three different people. You cannot vote for yourself.',goldLabel:'Gold — strong fit',silverLabel:'Silver — moderate fit',bronzeLabel:'Bronze — weak fit',blockMessage:'You must assign gold, silver AND bronze before continuing.',nextButton:'Next →',submitButton:'Submit votes'},
+      doneScreen:{heading:'Votes submitted!',message:'Your scores have been recorded.'},
+      adminScreen:{heading:'Results Dashboard',roundsHeading:'Round results',roundsInstruction:'Highest average score wins the medal and is removed from future rounds.',finalHeading:'Final assignments'}
+    },
+    people:['Alex','Berni','Daniel F.','Daniel M.','Danny','Marcus','Mathias','Michi','Thomas'],
+    medals:Array.from({length:9},(_,i)=>({id:i,name:`Medal ${i+1}`,question:`Question ${i+1}`}))
+  };
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2500); }
-function showErr(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.classList.add('show'); }
-function hideErr(id) { document.getElementById(id).classList.remove('show'); }
-function initials(name) { return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase(); }
-function actMedals() { const s = new Set(Object.keys(ga()).map(Number)); return CFG.medals.filter(m => !s.has(m.id)); }
-function actPeople() { const ap = Object.values(ga()).map(a => a.person); return CFG.people.filter(p => !ap.includes(p)); }
-
-// ─── Identity screen ──────────────────────────────────────────────────────────
-function initSel() {
-  const sel = document.getElementById('vsel'), d = gd();
-  sel.innerHTML = '<option value="">— choose —</option>';
-  CFG.people.forEach(p => {
-    const o = document.createElement('option');
-    o.value = p; o.textContent = p + (d[p] ? ' ✓ voted' : '');
-    sel.appendChild(o);
-  });
+function applyConfig(){
+  const u=CFG.ui;
+  document.title=CFG.app.title;
+  document.getElementById('id-hdr').innerHTML=`<div class="pill">voting</div><div class="app-title">${CFG.app.title}</div><div class="app-sub">${CFG.app.subtitle}</div>`;
+  document.getElementById('vlegend').innerHTML=`<span>🥇 ${u.voteScreen.goldLabel}</span><span>🥈 ${u.voteScreen.silverLabel}</span><span>🥉 ${u.voteScreen.bronzeLabel}</span>`;
+  document.getElementById('vinstr').textContent=u.voteScreen.instruction;
+  document.getElementById('done-h').textContent=u.doneScreen.heading;
+  document.getElementById('done-p').textContent=u.doneScreen.message;
+  document.getElementById('adm-h').textContent=u.adminScreen.heading;
+  document.getElementById('adm-rh').textContent=u.adminScreen.roundsHeading;
+  document.getElementById('adm-ri').textContent=u.adminScreen.roundsInstruction;
+  document.getElementById('adm-fh').textContent=u.adminScreen.finalHeading;
 }
 
-function startVoting() {
-  const v = document.getElementById('vsel').value;
-  if (!v) { showErr('id-err', 'Please select your name.'); return; }
-  if (gd()[v]) { showErr('id-err', 'You have already voted. Each person can only vote once.'); return; }
-  hideErr('id-err');
-  voter = v; vts = {}; midx = 0;
-  // Initialise vts for each active medal/person combo
-  actMedals().forEach(m => {
-    vts[m.id] = {};
-    actPeople().filter(p => p !== v).forEach(p => vts[m.id][p] = 0);
-  });
-  renderV(); show('s-vote');
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2800);}
+function se(id,m){const e=document.getElementById(id);e.textContent=m;e.classList.add('on');}
+function he(id){document.getElementById(id).classList.remove('on');}
+function ini(name){return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function actM(){const s=new Set(Object.keys(rAssigns).map(Number));return shuffledMedals.length?shuffledMedals.filter(m=>!s.has(m.id)):CFG.medals.filter(m=>!s.has(m.id));}
+function actP(){const ap=Object.values(rAssigns).map(a=>a.person);return CFG.people.filter(p=>!ap.includes(p));}
+
+function initSel(){
+  const sel=document.getElementById('vsel');
+  sel.innerHTML='<option value="">— choose —</option>';
+  CFG.people.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p+(rVoters.includes(p)?' ✓ voted':'');sel.appendChild(o);});
 }
 
-// ─── Voting screen ────────────────────────────────────────────────────────────
-function renderV() {
-  const am = actMedals();
-  if (midx >= am.length) { submitV(); return; }
-  const med = am[midx];
-  const u = CFG.ui.voteScreen;
+async function startVoting(){
+  const v=document.getElementById('vsel').value;
+  if(!v){se('id-err','Please select your name.');return;}
+  if(rVoters.includes(v)){se('id-err','You have already voted. Each person can only vote once.');return;}
+  he('id-err');
+  voter=v;vts={};midx=0;shuffledMedals=shuffle(CFG.medals.filter(m=>!new Set(Object.keys(rAssigns).map(Number)).has(m.id)));
+  actM().forEach(m=>{vts[m.id]={};actP().filter(p=>p!==v).forEach(p=>vts[m.id][p]=0);});
+  renderV();show('s-vote');
+}
 
-  document.getElementById('vstep').textContent = `medal ${midx+1} of ${am.length}`;
-  document.getElementById('vtitle').textContent = med.name;
-  document.getElementById('vq').textContent = med.question;
-  hideErr('vote-err');
-
-  const ppl = actPeople().filter(p => p !== voter);
-  const mi = med.id;
-  if (!vts[mi]) { vts[mi] = {}; ppl.forEach(p => vts[mi][p] = 0); }
-
-  // Who currently holds gold/silver/bronze for this medal?
-  const takenBy = { 3: null, 2: null, 1: null };
-  ppl.forEach(p => { const pts = vts[mi][p] || 0; if (pts > 0) takenBy[pts] = p; });
-
-  const lst = document.getElementById('vlist'); lst.innerHTML = '';
-  ppl.forEach(person => {
-    const cur = vts[mi][person] || 0;
-    const row = document.createElement('div'); row.className = 'vrow';
-
-    // For each medal tier, button is disabled if that tier is taken by someone else
-    const btns = [
-      { pts:3, cls:'mg', em:'🥇', tip: u.goldLabel },
-      { pts:2, cls:'ms', em:'🥈', tip: u.silverLabel },
-      { pts:1, cls:'mb', em:'🥉', tip: u.bronzeLabel }
-    ].map(t => {
-      const takenByOther = takenBy[t.pts] && takenBy[t.pts] !== person;
-      const isOn = cur === t.pts;
-      return `<button class="mbtn ${t.cls}${isOn?' on':''}" data-pts="${t.pts}"
-        ${takenByOther ? 'disabled title="Already assigned to '+takenBy[t.pts]+'"' : ''}
-        onclick="setPts(${mi},'${person}',${t.pts},this)">
-        <span class="tip">${t.tip}</span>${t.em}
-      </button>`;
-    }).join('');
-
-    row.innerHTML = `<div class="vname">${person}</div><div class="vbtns">${btns}</div>`;
+function renderV(){
+  const am=actM();
+  if(midx>=am.length){submitV();return;}
+  const med=am[midx],u=CFG.ui.voteScreen;
+  document.getElementById('vstep').textContent=`medal ${midx+1} of ${am.length}`;
+  document.getElementById('vtitle').textContent=med.name;
+  document.getElementById('vq').textContent=med.question;
+  he('verr');
+  const ppl=actP().filter(p=>p!==voter),mi=med.id;
+  if(!vts[mi]){vts[mi]={};ppl.forEach(p=>vts[mi][p]=0);}
+  const tb={3:null,2:null,1:null};
+  ppl.forEach(p=>{const pts=vts[mi][p]||0;if(pts>0)tb[pts]=p;});
+  const lst=document.getElementById('vlist');lst.innerHTML='';
+  ppl.forEach(person=>{
+    const cur=vts[mi][person]||0;
+    const row=document.createElement('div');row.className='vrow';
+    const btns=[{pts:3,cls:'mg',em:'🥇',tip:u.goldLabel},{pts:2,cls:'ms',em:'🥈',tip:u.silverLabel},{pts:1,cls:'mb',em:'🥉',tip:u.bronzeLabel}]
+      .map(t=>{const tbo=tb[t.pts]&&tb[t.pts]!==person;
+        return `<button class="mbtn ${t.cls}${cur===t.pts?' on':''}" data-pts="${t.pts}" ${tbo?`disabled title="Given to ${tb[t.pts]}"`:''} onclick="setPts(${mi},'${person}',${t.pts},this)"><span class="tip">${t.tip}</span>${t.em}</button>`;
+      }).join('');
+    row.innerHTML=`<div class="vname">${person}</div><div class="vbtns">${btns}</div>`;
     lst.appendChild(row);
   });
-
-  // Progress
-  const pct = Math.round((midx / am.length) * 100);
-  document.getElementById('vprog').style.width = pct + '%';
-  document.getElementById('vplbl').textContent = `${midx} of ${am.length} medals scored`;
-  document.getElementById('bprev').style.visibility = midx === 0 ? 'hidden' : 'visible';
-  document.getElementById('bnext').textContent = midx === am.length - 1 ? u.submitButton : u.nextButton;
+  const pct=Math.round((midx/am.length)*100);
+  document.getElementById('vprog').style.width=pct+'%';
+  document.getElementById('vplbl').textContent=`${midx} of ${am.length} medals scored`;
+  document.getElementById('bprev').style.visibility=midx===0?'hidden':'visible';
+  document.getElementById('bnext').textContent=midx===am.length-1?u.submitButton:u.nextButton;
 }
 
-function setPts(mi, person, pts, btn) {
-  const cur = vts[mi][person] || 0;
-  const nv = cur === pts ? 0 : pts;
+function setPts(mi,person,pts,btn){
+  const cur=vts[mi][person]||0,nv=cur===pts?0:pts;
+  if(nv>0)Object.keys(vts[mi]).forEach(p=>{if(vts[mi][p]===nv)vts[mi][p]=0;});
+  vts[mi][person]=nv;renderV();
+}
 
-  // If assigning a tier, clear it from whoever else has it
-  if (nv > 0) {
-    Object.keys(vts[mi]).forEach(p => { if (vts[mi][p] === nv) vts[mi][p] = 0; });
+function valM(){
+  const am=actM();if(midx>=am.length)return true;
+  const pts=Object.values(vts[am[midx].id]||{});
+  return pts.includes(3)&&pts.includes(2)&&pts.includes(1);
+}
+
+function nextM(){
+  if(!valM()){se('verr',CFG.ui.voteScreen.blockMessage);return;}
+  he('verr');const am=actM();
+  if(midx<am.length-1){midx++;renderV();}else submitV();
+}
+function prevM(){if(midx>0){he('verr');midx--;renderV();}}
+
+async function submitV(){
+  const am=actM();
+  for(let i=0;i<am.length;i++){
+    const pts=Object.values(vts[am[i].id]||{});
+    if(!pts.includes(3)||!pts.includes(2)||!pts.includes(1)){midx=i;renderV();se('verr',CFG.ui.voteScreen.blockMessage);return;}
   }
-  vts[mi][person] = nv;
-  renderV(); // re-render to update disabled states
+  show('s-sub');
+  try{
+    const r=await api({action:'submitVotes',voter,votes:vts});
+    if(r.error==='already_voted'){show('s-vote');se('verr','You have already voted from another device.');return;}
+    rVoters.push(voter);show('s-done');
+  }catch(e){show('s-vote');se('verr','Could not save: '+e.message);}
 }
 
-function validateMedal() {
-  const am = actMedals();
-  if (midx >= am.length) return true;
-  const mi = am[midx].id;
-  const pts = Object.values(vts[mi] || {});
-  const hasGold   = pts.includes(3);
-  const hasSilver = pts.includes(2);
-  const hasBronze = pts.includes(1);
-  return hasGold && hasSilver && hasBronze;
+function goHome(){initSel();show('s-id');}
+function goAdmin(){document.getElementById('apw').value='';he('a-err');show('s-alog');}
+async function chkAdmin(){
+  if(document.getElementById('apw').value!==CFG.app.adminPassword){se('a-err','Incorrect password.');return;}
+  show('s-admin');await refreshAdmin();
 }
 
-function nextM() {
-  if (!validateMedal()) {
-    showErr('vote-err', CFG.ui.voteScreen.blockMessage);
-    return;
+async function refreshAdmin(){
+  document.getElementById('sync-status').innerHTML=`<span class="syncing"><span class="sdot"></span> Fetching from Google Sheets…</span>`;
+  try{
+    const vd=await apiGet('getVotes');rVotes=vd.votes||{};rVoters=vd.voters||[];
+    const ad=await apiGet('getAssignments');rAssigns=ad.assigns||{};
+    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--ok-tx);">✓ Synced — ${new Date().toLocaleTimeString()}</span>`;
+  }catch(e){
+    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--err-tx);">⚠ Could not reach Google Sheets: ${e.message}</span>`;
   }
-  hideErr('vote-err');
-  const am = actMedals();
-  if (midx < am.length - 1) { midx++; renderV(); }
-  else submitV();
-}
-function prevM() { if (midx > 0) { hideErr('vote-err'); midx--; renderV(); } }
-
-function submitV() {
-  // Final validation — all medals must have gold+silver+bronze
-  const am = actMedals();
-  for (let i = 0; i < am.length; i++) {
-    const pts = Object.values(vts[am[i].id] || {});
-    if (!pts.includes(3) || !pts.includes(2) || !pts.includes(1)) {
-      midx = i; renderV();
-      showErr('vote-err', CFG.ui.voteScreen.blockMessage);
-      return;
-    }
-  }
-  const d = gd(); d[voter] = vts; sd(d); show('s-done');
-}
-
-// ─── Admin ────────────────────────────────────────────────────────────────────
-function goHome() { initSel(); show('s-id'); }
-function goAdmin() { document.getElementById('apw').value = ''; hideErr('a-err'); show('s-alog'); }
-function chkAdmin() {
-  if (document.getElementById('apw').value === CFG.app.adminPassword) { renderAdmin(); show('s-admin'); }
-  else showErr('a-err', 'Incorrect password.');
-}
-
-function calcScores(medalId, assignedPeople) {
-  const data = gd();
-  const elig = CFG.people.filter(p => !assignedPeople.includes(p));
-  return elig.map(person => {
-    let tot = 0, vc = 0;
-    CFG.people.forEach(v => {
-      if (v === person || !data[v] || data[v][medalId] === undefined) return;
-      tot += data[v][medalId][person] || 0; vc++;
-    });
-    const voted = CFG.people.filter(v => v !== person && data[v]).length;
-    return { person, tot, vc: voted, avg: voted > 0 ? tot / voted : 0 };
-  }).sort((a, b) => b.avg - a.avg);
-}
-
-function micon(avg) { if (avg >= 2.5) return '🥇'; if (avg >= 1.5) return '🥈'; if (avg > 0) return '🥉'; return '—'; }
-
-function renderAdmin() {
-  const data = gd(), assigns = ga();
-  const apl = Object.values(assigns).map(a => a.person);
-  const aidx = new Set(Object.keys(assigns).map(Number));
-  const voted = CFG.people.filter(p => data[p]);
-
-  // Status
-  document.getElementById('a-status').innerHTML = `
-    <div class="hrow" style="margin-bottom:10px;">
-      <h3 style="margin:0;">Voting progress</h3><div class="sp"></div>
-      <span class="badge ${voted.length === CFG.people.length ? 'b-ok' : 'b-warn'}">${voted.length} / ${CFG.people.length} voted</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;">
-      ${CFG.people.map(p => `<span class="badge ${data[p] ? 'b-ok' : 'b-dim'}">${p}</span>`).join('')}
-    </div>`;
-
-  // Rounds
-  const re = document.getElementById('a-rounds'); re.innerHTML = '';
-  CFG.medals.forEach(med => {
-    if (aidx.has(med.id)) return;
-    const sc = calcScores(med.id, apl);
-    const tied = sc.length > 1 && sc[0].avg > 0 && sc[0].avg === sc[1].avg;
-    const card = document.createElement('div'); card.className = 'card';
-    card.innerHTML = `
-      <div class="hrow" style="margin-bottom:10px;">
-        <h3 style="margin:0;">${med.name}</h3>
-        <span class="badge b-info" style="font-size:11px;">${med.question}</span>
-        ${tied ? `<span class="badge b-warn">tie</span>` : ''}
-      </div>
-      <table class="rt">
-        <thead><tr><th>Person</th><th>Total pts</th><th>Avg / voter</th><th></th></tr></thead>
-        <tbody>
-          ${sc.map(({person,tot,vc,avg},i) => `
-            <tr class="${i===0&&avg>0?'leader':''}">
-              <td>${person}</td>
-              <td>${tot} pts <span style="font-size:11px;color:var(--ink3);">(${vc} voters)</span></td>
-              <td><div class="sbarw"><span>${micon(avg)}</span><div class="sbar"><div class="sbarf" style="width:${Math.round((avg/3)*100)}%"></div></div><span>${avg.toFixed(2)}</span></div></td>
-              <td>${i===0&&avg>0&&!tied?`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}')">Assign →</button>`:''}</td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-      ${tied ? `<div class="tie-box">Tie between <strong>${sc.filter(s=>s.avg===sc[0].avg).map(s=>s.person).join(' and ')}</strong>. Suggested tiebreaker: ask for a specific recent example of <em>"${med.question}"</em>.<br><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${sc.filter(s=>s.avg===sc[0].avg).map(({person,avg})=>`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}')">Assign to ${person}</button>`).join('')}</div></div>` : ''}`;
-    re.appendChild(card);
-  });
-  if (!re.innerHTML) re.innerHTML = '<p>All medals have been assigned.</p>';
-
-  // Final
-  const fe = Object.entries(assigns);
-  document.getElementById('a-final').innerHTML = fe.length === 0
-    ? '<p style="color:var(--ink3);">No medals assigned yet.</p>'
-    : `<table class="rt">
-        <thead><tr><th>Person</th><th>Medal</th><th>Avg score</th><th>Question</th></tr></thead>
-        <tbody>${fe.map(([mi,a]) => {
-          const med = CFG.medals.find(m => m.id === parseInt(mi));
-          return `<tr>
-            <td><div class="hrow" style="gap:8px;"><div class="av">${initials(a.person)}</div>${a.person}</div></td>
-            <td><span class="badge b-ok">${med ? med.name : 'Medal '+mi}</span></td>
-            <td>${micon(parseFloat(a.avg))} ${a.avg} / 3.00</td>
-            <td style="color:var(--ink2);">${med ? med.question : ''}</td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table>`;
-}
-
-function doAssign(mi, person, avg) {
-  const a = ga(); a[mi] = { person, avg, assignedAt: new Date().toISOString() }; sa(a);
-  toast(`${person} assigned to ${CFG.medals.find(m=>m.id===mi)?.name || 'Medal '+mi}`);
   renderAdmin();
 }
 
-// ─── CSV Export ───────────────────────────────────────────────────────────────
-function exportCSV() {
-  const data = gd(), assigns = ga();
-  const lines = [];
-
-  // Header
-  lines.push(['Export type','Medal Voting Results — ' + CFG.app.title].join(','));
-  lines.push(['Exported at', new Date().toLocaleString()].join(','));
-  lines.push([]);
-
-  // Final assignments
-  lines.push(['FINAL ASSIGNMENTS']);
-  lines.push(['Person','Medal','Question','Avg Score','Assigned At']);
-  Object.entries(assigns).forEach(([mi, a]) => {
-    const med = CFG.medals.find(m => m.id === parseInt(mi));
-    lines.push([a.person, med?.name||'', med?.question||'', a.avg, a.assignedAt].join(','));
-  });
-  lines.push([]);
-
-  // Raw votes
-  lines.push(['RAW VOTES']);
-  const header = ['Voter', ...CFG.medals.map(m => m.name + ' — ' + m.question)];
-  lines.push(header.join(','));
-  CFG.people.forEach(voter => {
-    if (!data[voter]) return;
-    const row = [voter];
-    CFG.medals.forEach(med => {
-      const mVotes = data[voter][med.id] || {};
-      const parts = Object.entries(mVotes)
-        .filter(([,pts]) => pts > 0)
-        .sort((a,b) => b[1]-a[1])
-        .map(([p,pts]) => `${p}:${pts===3?'Gold':pts===2?'Silver':'Bronze'}`);
-      row.push('"' + parts.join('; ') + '"');
-    });
-    lines.push(row.join(','));
-  });
-  lines.push([]);
-
-  // Scores per medal
-  lines.push(['SCORES PER MEDAL']);
-  const apl = Object.values(assigns).map(a => a.person);
-  CFG.medals.forEach(med => {
-    lines.push([med.name + ' — ' + med.question]);
-    lines.push(['Person','Total pts','Voters','Avg score']);
-    const sc = calcScores(med.id, []);
-    sc.forEach(({person,tot,vc,avg}) => lines.push([person,tot,vc,avg.toFixed(2)].join(',')));
-    lines.push([]);
-  });
-
-  const blob = new Blob([lines.map(l => Array.isArray(l) ? l.join(',') : l).join('\n')], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url;
-  a.download = 'medal-voting-results.csv'; a.click();
-  URL.revokeObjectURL(url);
-  toast('CSV exported!');
+function calcScores(medalId){
+  const apl=Object.values(rAssigns).map(a=>a.person);
+  const elig=CFG.people.filter(p=>!apl.includes(p));
+  return elig.map(person=>{
+    let tot=0;
+    Object.entries(rVotes).forEach(([v,mv])=>{if(v===person)return;tot+=(mv[medalId]||{})[person]||0;});
+    const vc=Object.keys(rVotes).filter(v=>v!==person).length;
+    return{person,tot,vc,avg:vc>0?tot/vc:0};
+  }).sort((a,b)=>b.avg-a.avg);
 }
 
-// ─── Reset ────────────────────────────────────────────────────────────────────
-function resetAll() {
-  if (!confirm('Reset all votes and assignments? This cannot be undone.')) return;
-  localStorage.removeItem(SK); localStorage.removeItem(AK);
-  toast('All data reset.'); renderAdmin(); initSel();
+function micon(a){if(a>=2.5)return'🥇';if(a>=1.5)return'🥈';if(a>0)return'🥉';return'—';}
+
+function renderAdmin(){
+  const voted=rVoters;
+  document.getElementById('a-status').innerHTML=`
+    <div class="hrow" style="margin-bottom:10px;">
+      <h3 style="margin:0;">Voting progress</h3><div class="sp"></div>
+      <span class="badge ${voted.length===CFG.people.length?'b-ok':'b-warn'}">${voted.length} / ${CFG.people.length} voted</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      ${CFG.people.map(p=>`<span class="badge ${voted.includes(p)?'b-ok':'b-dim'}">${p}</span>`).join('')}
+    </div>`;
+
+  const re=document.getElementById('a-rounds');re.innerHTML='';
+  const aidx=new Set(Object.keys(rAssigns).map(Number));
+  CFG.medals.forEach(med=>{
+    if(aidx.has(med.id))return;
+    const sc=calcScores(med.id);
+    const tied=sc.length>1&&sc[0].avg>0&&sc[0].avg===sc[1].avg;
+    const card=document.createElement('div');card.className='card';
+    card.innerHTML=`
+      <div class="hrow" style="margin-bottom:10px;">
+        <h3 style="margin:0;">${med.name}</h3>
+        <span class="badge b-info" style="font-size:11px;">${med.question}</span>
+        ${tied?`<span class="badge b-warn">tie</span>`:''}
+      </div>
+      <table class="rt">
+        <thead><tr><th>Person</th><th>Total pts</th><th>Avg / voter</th><th></th></tr></thead>
+        <tbody>${sc.map(({person,tot,vc,avg},i)=>`
+          <tr class="${i===0&&avg>0?'leader':''}">
+            <td>${person}</td>
+            <td>${tot} pts <span style="font-size:11px;color:var(--ink3);">(${vc} voters)</span></td>
+            <td><div class="sbarw"><span>${micon(avg)}</span><div class="sbar"><div class="sbarf" style="width:${Math.round((avg/3)*100)}%"></div></div><span>${avg.toFixed(2)}</span></div></td>
+            <td>${i===0&&avg>0&&!tied?`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Assign →</button>`:''}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      ${tied?`<div class="tie-box">Tie between <strong>${sc.filter(s=>s.avg===sc[0].avg).map(s=>s.person).join(' and ')}</strong>. Tiebreaker: ask for a specific recent example of <em>"${med.question}"</em>.<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">${sc.filter(s=>s.avg===sc[0].avg).map(({person,avg})=>`<button class="btn btn-sm" onclick="doAssign(${med.id},'${person}','${avg.toFixed(2)}','${med.name}')">Assign to ${person}</button>`).join('')}</div></div>`:``}`;
+    re.appendChild(card);
+  });
+  if(!re.innerHTML)re.innerHTML='<p>All medals have been assigned.</p>';
+
+  const fe=Object.entries(rAssigns);
+  document.getElementById('a-final').innerHTML=fe.length===0
+    ?'<p style="color:var(--ink3);">No medals assigned yet.</p>'
+    :`<table class="rt"><thead><tr><th>Person</th><th>Medal</th><th>Avg score</th><th>Question</th></tr></thead><tbody>
+      ${fe.map(([mi,a])=>{const med=CFG.medals.find(m=>m.id===parseInt(mi));return`<tr>
+        <td><div class="hrow" style="gap:8px;"><div class="av">${ini(a.person)}</div>${a.person}</div></td>
+        <td><span class="badge b-ok">${a.medalName||med?.name||''}</span></td>
+        <td>${micon(parseFloat(a.avg))} ${a.avg} / 3.00</td>
+        <td style="color:var(--ink2);">${med?.question||''}</td>
+      </tr>`;}).join('')}</tbody></table>`;
+}
+
+async function doAssign(mi,person,avg,medalName){
+  const btn=event.target;btn.disabled=true;btn.textContent='Saving…';
+  try{
+    await api({action:'assignMedal',medalId:mi,medalName,person,avg});
+    rAssigns[mi]={person,avg,medalName,assignedAt:new Date().toISOString()};
+    toast(`${person} assigned to ${medalName}`);renderAdmin();
+  }catch(e){btn.disabled=false;btn.textContent='Assign →';toast('Error: '+e.message);}
+}
+
+function exportCSV(){
+  const lines=['Medal Voting Export — '+CFG.app.title,'Exported at,'+new Date().toLocaleString(),'','FINAL ASSIGNMENTS','Person,Medal,Question,Avg Score,Assigned At'];
+  Object.entries(rAssigns).forEach(([mi,a])=>{const med=CFG.medals.find(m=>m.id===parseInt(mi));lines.push([a.person,a.medalName||'',med?.question||'',a.avg,a.assignedAt].join(','));});
+  lines.push('','RAW VOTES',['Voter',...CFG.medals.map(m=>m.name+' — '+m.question)].join(','));
+  Object.entries(rVotes).forEach(([v,mv])=>{
+    const row=[v];
+    CFG.medals.forEach(med=>{const m=mv[med.id]||{};const parts=Object.entries(m).filter(([,p])=>p>0).sort((a,b)=>b[1]-a[1]).map(([p,pts])=>`${p}:${pts===3?'Gold':pts===2?'Silver':'Bronze'}`);row.push('"'+parts.join('; ')+'"');});
+    lines.push(row.join(','));
+  });
+  lines.push('','SCORES PER MEDAL');
+  CFG.medals.forEach(med=>{
+    lines.push(med.name+' — '+med.question,'Person,Total pts,Voters,Avg score');
+    calcScores(med.id).forEach(({person,tot,vc,avg})=>lines.push([person,tot,vc,avg.toFixed(2)].join(',')));
+    lines.push('');
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='medal-voting-results.csv';a.click();
+  URL.revokeObjectURL(url);toast('CSV exported!');
+}
+
+async function resetAll(){
+  if(!confirm('Reset ALL votes and assignments in Google Sheets? This cannot be undone.'))return;
+  try{await api({action:'resetAll'});rVotes={};rVoters=[];rAssigns={};toast('All data reset.');renderAdmin();initSel();}
+  catch(e){toast('Error: '+e.message);}
 }
 
 boot();
