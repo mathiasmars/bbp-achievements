@@ -214,24 +214,31 @@ select:focus,input:focus{border-color:var(--ink);}
 let CFG=null, voter=null, midx=0, vts={}, shuffledMedals=[];
 let rVotes={}, rVoters=[], rAssigns={};
 
-// ─── API (GET only — avoids CORS issues with Google Apps Script) ──────────────
-async function api(action, data){
-  const url=CFG.app.apiUrl;
-  if(!url||url==='PASTE_YOUR_WEB_APP_URL_HERE') throw new Error('API URL not set in app.json');
-  const encoded=encodeURIComponent(JSON.stringify(data||{}));
-  const r=await fetch(`${url}?action=${action}&data=${encoded}`);
+// ─── JSONBin API ──────────────────────────────────────────────────────────────
+const JB_KEY     = '$2a$10$JhQ2/JJ149Ctup9Iy07YOOHVEbovM/UvJgT2vDCiXKDW0koISTcSy';
+const JB_VOTES   = '69c06a24c3097a1dd54ce459';
+const JB_ASSIGNS = '69c06a2ec3097a1dd54ce47d';
+const JB_BASE    = 'https://api.jsonbin.io/v3/b';
+const JB_HEADS   = { 'Content-Type':'application/json', 'X-Master-Key': JB_KEY, 'X-Bin-Versioning':'false' };
+
+async function jbGet(binId){
+  const r = await fetch(`${JB_BASE}/${binId}/latest`, { headers: JB_HEADS });
+  const j = await r.json();
+  return j.record;
+}
+async function jbSet(binId, data){
+  const r = await fetch(`${JB_BASE}/${binId}`, { method:'PUT', headers: JB_HEADS, body: JSON.stringify(data) });
   return r.json();
 }
-async function apiGet(action){ return api(action); }
 
 async function boot(){
   try{ const r=await fetch('helper/53/misc/app.json'); CFG=await r.json(); }
   catch(e){ CFG=fallbackCfg(); }
   applyConfig();
   try{
-    const vd=await apiGet('getVotes'); rVoters=vd.voters||[]; rVotes=vd.votes||{};
-    const ad=await apiGet('getAssignments'); rAssigns=ad.assigns||{};
-  }catch(e){ console.warn('API unreachable:',e.message); }
+    const vd=await jbGet(JB_VOTES); rVoters=vd.voters||[]; rVotes=vd.votes||{};
+    const ad=await jbGet(JB_ASSIGNS); rAssigns=ad.assigns||{};
+  }catch(e){ console.warn('JSONBin unreachable:',e.message); }
   initSel();
   document.getElementById('loading').style.display='none';
   show('s-id');
@@ -348,9 +355,13 @@ async function submitV(){
   }
   show('s-sub');
   try{
-    const r=await api('submitVotes',{voter,votes:vts});
-    if(r.error==='already_voted'){show('s-vote');se('verr','Du hast bereits von einem anderen Gerät abgestimmt.');return;}
-    rVoters.push(voter);show('s-done');
+    const current=await jbGet(JB_VOTES);
+    if((current.voters||[]).includes(voter)){show('s-vote');se('verr','Du hast bereits von einem anderen Gerät abgestimmt.');return;}
+    const updatedVoters=[...(current.voters||[]),voter];
+    const updatedVotes=Object.assign({},current.votes||{},{[voter]:vts});
+    await jbSet(JB_VOTES,{voters:updatedVoters,votes:updatedVotes});
+    rVoters=updatedVoters; rVotes=updatedVotes;
+    show('s-done');
   }catch(e){show('s-vote');se('verr','Speichern fehlgeschlagen: '+e.message);}
 }
 
@@ -364,11 +375,11 @@ async function chkAdmin(){
 async function refreshAdmin(){
   document.getElementById('sync-status').innerHTML=`<span class="syncing"><span class="sdot"></span> Lade Daten aus Google Sheets…</span>`;
   try{
-    const vd=await apiGet('getVotes');rVotes=vd.votes||{};rVoters=vd.voters||[];
-    const ad=await apiGet('getAssignments');rAssigns=ad.assigns||{};
+    const vd=await jbGet(JB_VOTES);rVotes=vd.votes||{};rVoters=vd.voters||[];
+    const ad=await jbGet(JB_ASSIGNS);rAssigns=ad.assigns||{};
     document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--ok-tx);">✓ Aktualisiert — ${new Date().toLocaleTimeString()}</span>`;
   }catch(e){
-    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--err-tx);">⚠ Google Sheets nicht erreichbar: ${e.message}</span>`;
+    document.getElementById('sync-status').innerHTML=`<span style="font-size:12px;color:var(--err-tx);">⚠ JSONBin nicht erreichbar: ${e.message}</span>`;
   }
   renderAdmin();
 }
@@ -441,8 +452,10 @@ function renderAdmin(){
 async function doAssign(mi,person,avg,medalName){
   const btn=event.target;btn.disabled=true;btn.textContent='Speichern…';
   try{
-    await api('assignMedal',{medalId:mi,medalName,person,avg});
-    rAssigns[mi]={person,avg,medalName,assignedAt:new Date().toISOString()};
+    const current=await jbGet(JB_ASSIGNS);
+    const updated=Object.assign({},current.assigns||{},{[mi]:{person,avg,medalName,assignedAt:new Date().toISOString()}});
+    await jbSet(JB_ASSIGNS,{assigns:updated});
+    rAssigns=updated;
     toast(`${person} → ${medalName}`);renderAdmin();
   }catch(e){btn.disabled=false;btn.textContent='Zuweisen →';toast('Fehler: '+e.message);}
 }
@@ -470,8 +483,12 @@ function exportCSV(){
 
 async function resetAll(){
   if(!confirm('Alle Stimmen und Zuweisungen in Google Sheets zurücksetzen? Dies kann nicht rückgängig gemacht werden.'))return;
-  try{await api('resetAll',{});rVotes={};rVoters=[];rAssigns={};toast('Alle Daten zurückgesetzt.');renderAdmin();initSel();}
-  catch(e){toast('Fehler: '+e.message);}
+  try{
+    await jbSet(JB_VOTES,{voters:[],votes:{}});
+    await jbSet(JB_ASSIGNS,{assigns:{}});
+    rVotes={};rVoters=[];rAssigns={};
+    toast('Alle Daten zurückgesetzt.');renderAdmin();initSel();
+  }catch(e){toast('Fehler: '+e.message);}
 }
 
 boot();
