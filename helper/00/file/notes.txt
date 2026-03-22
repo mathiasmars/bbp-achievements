@@ -1,0 +1,4 @@
+# notes.txt
+Generated reference file.
+ID: 00-1
+Timestamp: 1710000100
