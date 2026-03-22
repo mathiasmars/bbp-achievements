@@ -114,11 +114,11 @@ select:focus,input:focus{border-color:var(--ink);}
   <div id="id-hdr"></div>
   <div class="card">
     <div class="lbl">Select your name</div>
-    <select id="vsel"><option value="">— choose —</option></select>
+    <select id="vsel"><option value="">— Bitte auswählen —</option></select>
     <div class="emsg" id="id-err"></div>
   </div>
   <div class="hrow" style="margin-top:1rem;">
-    <button class="btn btn-p" onclick="startVoting()">Continue</button>
+    <button class="btn btn-p" onclick="startVoting()">Los geht's!</button>
     <button class="btn btn-sm" onclick="goAdmin()">Admin</button>
   </div>
 </div>
@@ -138,9 +138,9 @@ select:focus,input:focus{border-color:var(--ink);}
   <div class="card" style="padding:.5rem 1.25rem;"><div id="vlist"></div></div>
   <div class="emsg" id="verr" style="margin-top:8px;"></div>
   <div class="hrow" style="margin-top:1rem;gap:8px;">
-    <button class="btn" id="bprev" onclick="prevM()">← Back</button>
+    <button class="btn" id="bprev" onclick="prevM()">← Zurück</button>
     <div class="sp"></div>
-    <button class="btn btn-p" id="bnext" onclick="nextM()">Next →</button>
+    <button class="btn btn-p" id="bnext" onclick="nextM()">Weiter →</button>
   </div>
   <div style="margin-top:1.25rem;">
     <div class="pbar"><div class="pfill" id="vprog"></div></div>
@@ -163,7 +163,7 @@ select:focus,input:focus{border-color:var(--ink);}
     <div style="font-size:56px;margin:1.5rem 0 1rem;">🏅</div>
     <h2 id="done-h"></h2>
     <p id="done-p" style="margin-top:8px;max-width:340px;margin-left:auto;margin-right:auto;"></p>
-    <button class="btn btn-sm" style="margin-top:1.75rem;" onclick="goHome()">Back to start</button>
+    <button class="btn btn-sm" style="margin-top:1.75rem;" onclick=window.close();>Schließen</button>
   </div>
 </div>
 
